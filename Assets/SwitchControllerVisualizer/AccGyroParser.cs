@@ -78,5 +78,21 @@ namespace SwitchControllerVisualizer
 
             return (posVec, maxIndex, rot);
         }
+
+        public static Vector3 AccToRot(Vector3 v)
+        {
+            var x = MathF.Atan2(v.y, v.z) * Mathf.Rad2Deg;
+            var y = MathF.Atan2(v.z, v.x) * Mathf.Rad2Deg;
+            var z = MathF.Atan2(v.y, v.x * -1) * Mathf.Rad2Deg;
+            x += 90f;
+            x = x % 360f;
+            if (x > 180f) { x -= 360f; }
+            // y -= 90f;
+            z += 90f;
+            z = z % 360f;
+            if (z > 180f) { z -= 360f; }
+            // z *= -1;
+            return new(x, 0, z);
+        }
     }
 }

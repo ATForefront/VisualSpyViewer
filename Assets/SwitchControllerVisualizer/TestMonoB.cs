@@ -17,6 +17,7 @@ namespace SwitchControllerVisualizer
 
         public bool EnablePosition;
         public bool RawProtocolMode;
+        public bool AccelOnlyMode;
 
         public void Start()
         {
@@ -55,23 +56,34 @@ namespace SwitchControllerVisualizer
             {
                 var beforeState = State;
                 State = state;
-                var deltaTime = DeltaTime = AccGyroParser.GetDeltaTime(beforeState, State);
-                if (RawProtocolMode)
+                // var deltaTime = DeltaTime = AccGyroParser.GetDeltaTime(beforeState, State);
+                if (AccelOnlyMode)
                 {
-                    var vec = AccGyroParser.RawToVec(State.AccGyro1);
-                    transform.localRotation *= Quaternion.Euler(vec.rotVex);
-                    if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
-                    AccelVector3 = vec.posVec;
-                    GyroVector3 = vec.rotVex;
+                    var vec = AccGyroParser.RawToVec(State.AccGyro1).posVec;
+                    var eRot = AccGyroParser.AccToRot(vec);
+                    transform.localRotation = Quaternion.Euler(eRot);
+                    AccelVector3 = vec;
+                    GyroVector3 = eRot;
                 }
                 else
                 {
-                    var vec = AccGyroParser.RawMode2ToVec(State);
-                    transform.localRotation = vec.rot;
-                    if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
-                    AccelVector3 = vec.posVec;
-                    GyroQuaternion = vec.rot;
-                    MaxIndex = vec.maxIndex;
+                    if (RawProtocolMode)
+                    {
+                        var vec = AccGyroParser.RawToVec(State.AccGyro1);
+                        transform.localRotation *= Quaternion.Euler(vec.rotVex);
+                        if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
+                        AccelVector3 = vec.posVec;
+                        GyroVector3 = vec.rotVex;
+                    }
+                    else
+                    {
+                        var vec = AccGyroParser.RawMode2ToVec(State);
+                        transform.localRotation = vec.rot;
+                        if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
+                        AccelVector3 = vec.posVec;
+                        GyroQuaternion = vec.rot;
+                        MaxIndex = vec.maxIndex;
+                    }
                 }
 
                 if (State.ButtonStateRight.Y)
