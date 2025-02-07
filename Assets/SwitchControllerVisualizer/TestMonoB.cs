@@ -74,28 +74,58 @@ namespace SwitchControllerVisualizer
                         if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
                         AccelVector3 = vec.posVec;
                         GyroVector3 = vec.rotVex;
+
+                        if (State.ButtonStateRight.Y)
+                        {
+                            ResetPose();
+                        }
                     }
                     else
                     {
-                        var vec = AccGyroParser.RawMode2ToVec(State);
-                        transform.localRotation = vec.rot;
-                        if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
-                        AccelVector3 = vec.posVec;
-                        GyroQuaternion = vec.rot;
-                        MaxIndex = vec.maxIndex;
+                        var resultFFI = QuaternionParsee(State);
+                        if (resultFFI.is_ok)
+                        {
+                            var quat = resultFFI.zero;
+                            GyroQuaternion = new Quaternion(quat.y, quat.z * -1, quat.x * -1, quat.w);
+                        }
+                        if (State.ButtonStateRight.Y)
+                        {
+                            BaseRotation = Quaternion.Inverse(GyroQuaternion);
+                        }
+                        transform.localRotation = BaseRotation * GyroQuaternion;
                     }
-                }
 
-                if (State.ButtonStateRight.Y)
-                {
-                    ResetPose();
                 }
             }
         }
+
+        private static JoyconQuat.QuaternionParseResultFFI QuaternionParsee(SwitchControllerState state)
+        {
+            Span<short> gyroBuffer = stackalloc short[9];
+            gyroBuffer[0] = state.AccGyro1.GyroX;
+            gyroBuffer[1] = state.AccGyro1.GyroY;
+            gyroBuffer[2] = state.AccGyro1.GyroZ;
+            gyroBuffer[3] = state.AccGyro2.GyroX;
+            gyroBuffer[4] = state.AccGyro2.GyroY;
+            gyroBuffer[5] = state.AccGyro2.GyroZ;
+            gyroBuffer[6] = state.AccGyro3.GyroX;
+            gyroBuffer[7] = state.AccGyro3.GyroY;
+            gyroBuffer[8] = state.AccGyro3.GyroZ;
+
+            unsafe
+            {
+                fixed (short* ptr = gyroBuffer)
+                {
+                    return JoyconQuat.NativeMethod.quaternion_parse((byte*)ptr);
+                }
+            }
+        }
+
         public DeserializeResult DeserializeResult;
         public SwitchControllerState State;
         public Vector3 AccelVector3;
         public Vector3 GyroVector3;
+        public Quaternion BaseRotation;
         public Quaternion GyroQuaternion;
         public int MaxIndex;
         public int DeltaTime;

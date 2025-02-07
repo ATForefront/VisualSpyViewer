@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 392592793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.457, z: 0}
+  m_LocalPosition: {x: 0, y: 0.215, z: 0.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -519,6 +519,8 @@ MonoBehaviour:
   COMPort: COM3
   BaudRate: 115200
   EnablePosition: 0
+  RawProtocolMode: 0
+  AccelOnlyMode: 0
   DeserializeResult: 0
   State:
     Timer: 0
@@ -581,6 +583,9 @@ MonoBehaviour:
       GyroZ: 0
   AccelVector3: {x: 0, y: 0, z: 0}
   GyroVector3: {x: 0, y: 0, z: 0}
+  GyroQuaternion: {x: 0, y: 0, z: 0, w: 0}
+  MaxIndex: 0
+  DeltaTime: 0
 --- !u!4 &524785338
 Transform:
   m_ObjectHideFlags: 0
@@ -589,7 +594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524785336}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -628,7 +633,7 @@ Transform:
   m_GameObject: {fileID: 685069207}
   serializedVersion: 2
   m_LocalRotation: {x: -0.27059805, y: -0.27059805, z: 0.6532815, w: 0.6532815}
-  m_LocalPosition: {x: -0.924, y: -0.45700002, z: -0.489}
+  m_LocalPosition: {x: -0.924, y: 0.21500003, z: 0.321}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1071,7 +1076,7 @@ Transform:
   m_GameObject: {fileID: 1846109240}
   serializedVersion: 2
   m_LocalRotation: {x: 0.27059805, y: 0.27059805, z: 0.6532815, w: 0.6532815}
-  m_LocalPosition: {x: 0.924, y: -0.45700002, z: -0.489}
+  m_LocalPosition: {x: 0.924, y: 0.21500003, z: 0.321}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
