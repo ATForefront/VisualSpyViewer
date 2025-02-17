@@ -12,7 +12,7 @@ namespace JoyconQuat
 {
     internal static unsafe partial class NativeMethod
     {
-        const string __DllName = "joycon_quat";
+        const string __DllName = "joycon_quat_native";
 
 
 

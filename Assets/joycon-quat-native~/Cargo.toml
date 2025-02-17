@@ -1,0 +1,13 @@
+[package]
+name = "joycon-quat-native"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+joycon-quat = {git = "https://github.com/kitlith/joycon-quat.git"}
+
+[build-dependencies]
+csbindgen = "1.8.0"
