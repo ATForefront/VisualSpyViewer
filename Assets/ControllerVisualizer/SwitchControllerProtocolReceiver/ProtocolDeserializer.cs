@@ -7,7 +7,7 @@ namespace SwitchControllerVisualizer
 {
     public static class ProtocolDeserializer
     {
-        public static DeserializeResult TryDeserialize(ReadOnlySpan<byte> bytes, out SwitchControllerState state)
+        public static DeserializeResult TryDeserialize(ReadOnlySpan<byte> bytes, out SwitchControllerRawState state)
         {
             state = new();
 
@@ -31,7 +31,7 @@ namespace SwitchControllerVisualizer
     }
 
     [Serializable]
-    public struct SwitchControllerState
+    public struct SwitchControllerRawState
     {
         public byte Timer;
         public byte RawBatteryVal;

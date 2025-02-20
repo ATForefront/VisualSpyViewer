@@ -13,7 +13,8 @@ namespace SwitchControllerVisualizer
         static char[] CAPTURE_STOP = new char[] { 'p', '\n' };
         static char[] SHOW_DATA = new char[] { 'b', '\n' };
         SerialPort _serialPort;
-        byte[] readBuffer = new byte[1024];
+        byte[] _readBuffer = new byte[1024];
+       public bool ReceiveContinue = true;
         public SerialPortReceiver(string portName, int baudRate)
         {
             _serialPort = new(portName, baudRate);
@@ -27,8 +28,14 @@ namespace SwitchControllerVisualizer
         }
 
         public delegate void DataCallBack(ReadOnlySpan<byte> bytes);
+        public event DataCallBack DataReceiveCallBack = (b) => { };
 
-        public void Receive(DataCallBack dataCallBack)
+        public void ReceiveMainLoop()
+        {
+            while (ReceiveContinue) { Receive(DataReceiveCallBack); }
+        }
+
+        void Receive(DataCallBack dataCallBack)
         {
             _serialPort.Write(CAPTURE_STOP, 0, CAPTURE_STOP.Length);
             _serialPort.Write(SHOW_DATA, 0, SHOW_DATA.Length);
@@ -43,7 +50,7 @@ namespace SwitchControllerVisualizer
 
                     if (byte.TryParse(span, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out var b))
                     {
-                        readBuffer[bIndex] = b;
+                        _readBuffer[bIndex] = b;
                         bIndex += 1;
                     }
                     else
@@ -54,7 +61,7 @@ namespace SwitchControllerVisualizer
 
                 if (bIndex == -1 || bIndex == 0) { Debug.Log("Debug-Dump:" + line); continue; }// ignore
 
-                var receiveBytes = readBuffer.AsSpan(0, bIndex);
+                var receiveBytes = _readBuffer.AsSpan(0, bIndex);
 
                 dataCallBack(receiveBytes);
             }

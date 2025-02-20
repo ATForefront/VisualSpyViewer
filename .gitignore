@@ -74,4 +74,4 @@ crashlytics-build.properties
 
 .vscode
 
-Assets/joycon-quat-native~/target
+Assets/ControllerVisualizer/joycon-quat-native~/target
