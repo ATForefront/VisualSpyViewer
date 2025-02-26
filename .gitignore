@@ -74,6 +74,6 @@ crashlytics-build.properties
 
 .vscode
 
-Assets/ControllerVisualizer/joycon-quat-native~/target
+Assets/SwitchControllerProtocolReceiver/joycon-quat-native~/target
 
 *.blob

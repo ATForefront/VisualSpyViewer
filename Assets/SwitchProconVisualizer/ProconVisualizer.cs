@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SwitchControllerVisualizer
 {
-    public class ProconVisualizer : MonoBehaviour, IControllerVisualizer
+    public class ProconVisualizer : AbstractUnityVisualizer
     {
         public Animator Animator;
         public Transform GyroTransform;
@@ -29,13 +29,12 @@ namespace SwitchControllerVisualizer
         readonly int _idLStickX = Animator.StringToHash("LStickX");
         readonly int _idLStickY = Animator.StringToHash("LStickY");
 #nullable enable
-        public void SetControllerState(IControllerProtocolReceiver? controllerState)
+        public override void SetControllerState(IControllerProtocolReceiver? controllerState)
         {
             _state = controllerState?.ControllerState;
             _swExState = _state?.GetExtentState<SwitchControllerExtension>();
             _gyroExtension = _state?.GetExtentState<GyroExtension>();
         }
-
         ControllerState? _state;
         SwitchControllerExtension? _swExState;
         GyroExtension? _gyroExtension;
@@ -82,6 +81,7 @@ namespace SwitchControllerVisualizer
             var unityQuaternion = new UnityEngine.Quaternion(_gyroExtension.X, _gyroExtension.Y, _gyroExtension.Z, _gyroExtension.W);
             GyroTransform.localRotation = unityQuaternion;
         }
+
     }
 
 }

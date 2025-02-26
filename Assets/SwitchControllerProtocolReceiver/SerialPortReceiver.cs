@@ -3,7 +3,6 @@ using System;
 using System.Globalization;
 using System.IO.Ports;
 using System.Text;
-using UnityEngine;
 
 namespace SwitchControllerVisualizer
 {
@@ -14,7 +13,7 @@ namespace SwitchControllerVisualizer
         static char[] SHOW_DATA = new char[] { 'b', '\n' };
         SerialPort _serialPort;
         byte[] _readBuffer = new byte[1024];
-       public bool ReceiveContinue = true;
+        public bool ReceiveContinue = true;
         public SerialPortReceiver(string portName, int baudRate)
         {
             _serialPort = new(portName, baudRate);
@@ -59,7 +58,11 @@ namespace SwitchControllerVisualizer
                     }
                 }
 
-                if (bIndex == -1 || bIndex == 0) { Debug.Log("Debug-Dump:" + line); continue; }// ignore
+                if (bIndex == -1 || bIndex == 0)
+                {
+                    // Debug.Log("Debug-Dump:" + line);
+                    continue;
+                }// ignore
 
                 var receiveBytes = _readBuffer.AsSpan(0, bIndex);
 

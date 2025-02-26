@@ -1,0 +1,16 @@
+{
+    "name": "controller-visualizer.switch.receiver",
+    "rootNamespace": "",
+    "references": [
+        "controller-visualizer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
