@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace SwitchControllerVisualizer
 {
@@ -15,6 +16,7 @@ namespace SwitchControllerVisualizer
 
         [Header("UI")]
         public TMP_Dropdown ProtocolReceiverSelectDropdown;
+        public Button ProtocolReceiverSwitchButton;
 
         // ---
 
@@ -44,14 +46,16 @@ namespace SwitchControllerVisualizer
 
 
 
-
-        private void InitProtocolReceiverSelectDropdown()
+        // この実装の感じ ... あんまり嬉しくないな ... もっと UI からマネージャーを触らせる方向がいいと思うけど ... 私にはそこまでの気持ちはないかな
+        private void InitProtocolReceiverSelector()
         {
             // index を基準とする際 null は邪魔なので消します！！！
-            ProtocolReceiverManagers.RemoveAll(m => m != null);
+            ProtocolReceiverManagers.RemoveAll(m => m == null);
 
             ProtocolReceiverSelectDropdown.options = ProtocolReceiverManagers.Select(m => m.name).Select(m => new TMP_Dropdown.OptionData(m)).ToList();
             ProtocolReceiverSelectDropdown.value = 0;
+
+            ProtocolReceiverSwitchButton.onClick.AddListener(OnReceiverChangeOrInit);
         }
         void OnReceiverChangeOrInit()
         {
@@ -67,7 +71,7 @@ namespace SwitchControllerVisualizer
 
         void Awake()
         {
-            InitProtocolReceiverSelectDropdown();
+            InitProtocolReceiverSelector();
         }
 
 
