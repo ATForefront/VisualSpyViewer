@@ -18,7 +18,9 @@ namespace SwitchControllerVisualizer
 
         void Awake()
         {
-            ReceivingToggle.onClick.AddListener(OnReceiveToggle);
+            // なぜだかわからないけど、これはうまく動作しなかった ... しかしなぜ？
+            // 仕方がないの Inspector の UnityEvent から登録すると迂回できた
+            // ReceivingToggle.onClick.AddListener(OnReceiveToggle);
             UIIsActive(false);
             ToggleTextIs(false);
         }
@@ -53,7 +55,7 @@ namespace SwitchControllerVisualizer
             _protocolReceiver = null;
         }
 
-        void OnReceiveToggle()
+        public void OnReceiveToggle()
         {
             if (_register == null) { return; }
 

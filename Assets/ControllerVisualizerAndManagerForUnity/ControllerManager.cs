@@ -15,8 +15,8 @@ namespace SwitchControllerVisualizer
 
 
         [Header("UI")]
-        public TMP_Dropdown ProtocolReceiverSelectDropdown;
-        public Button ProtocolReceiverSwitchButton;
+        public TMP_Dropdown ProtocolReceiverSelectDropdown = null!;
+        public Button ProtocolReceiverSwitchButton = null!;
 
         // ---
 
@@ -55,9 +55,10 @@ namespace SwitchControllerVisualizer
             ProtocolReceiverSelectDropdown.options = ProtocolReceiverManagers.Select(m => m.name).Select(m => new TMP_Dropdown.OptionData(m)).ToList();
             ProtocolReceiverSelectDropdown.value = 0;
 
-            ProtocolReceiverSwitchButton.onClick.AddListener(OnReceiverChangeOrInit);
+            // こっちもだめかも
+            // ProtocolReceiverSwitchButton.onClick.AddListener(OnReceiverChangeOrInit);
         }
-        void OnReceiverChangeOrInit()
+        public void OnReceiverChangeOrInit()
         {
             var selected = ProtocolReceiverSelectDropdown.value;
             if (ProtocolReceiverManagers.Count <= selected) { return; }

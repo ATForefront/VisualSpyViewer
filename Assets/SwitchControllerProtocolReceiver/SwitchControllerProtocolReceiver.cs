@@ -1,7 +1,7 @@
 #nullable enable
 using System;
 using System.Numerics;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace SwitchControllerVisualizer
 {
@@ -19,7 +19,7 @@ namespace SwitchControllerVisualizer
         public bool RawProtocolMode;
 
         SerialPortReceiver _serialPortReceiver;
-        Thread _receiverThread;
+        Task _receiverTask;
 
         Action _updateCallBack = () => { };
 
@@ -31,20 +31,23 @@ namespace SwitchControllerVisualizer
         {
             COMPort = comPort;
             BaudRate = baudRate;
+            DataReceiveCallBack += ReceiveToParse;
+            _controllerState = new();
 
             _serialPortReceiver = new(COMPort, BaudRate);
-            _serialPortReceiver.DataReceiveCallBack += ReceiveToParse;
-            _receiverThread = new Thread(_serialPortReceiver.ReceiveMainLoop) { IsBackground = true };
-            _receiverThread.Start();
+            _receiverTask = Task.Run(ReceiveMainLoop);
 
-            _controllerState = new();
+        }
+        public event SerialPortReceiver.DataCallBack DataReceiveCallBack = (b) => { };
+        public bool ReceiveContinue = true;
+        public void ReceiveMainLoop()
+        {
+            while (ReceiveContinue) { _serialPortReceiver.Receive(DataReceiveCallBack); }
         }
         public void Dispose()
         {
-            _serialPortReceiver.ReceiveContinue = false;
-            _receiverThread.Join();
+            ReceiveContinue = false;
             _serialPortReceiver.Dispose();
-            _receiverThread = null!;
             _serialPortReceiver = null!;
         }
 

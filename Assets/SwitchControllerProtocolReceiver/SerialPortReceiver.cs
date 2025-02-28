@@ -13,7 +13,6 @@ namespace SwitchControllerVisualizer
         static char[] SHOW_DATA = new char[] { 'b', '\n' };
         SerialPort _serialPort;
         byte[] _readBuffer = new byte[1024];
-        public bool ReceiveContinue = true;
         public SerialPortReceiver(string portName, int baudRate)
         {
             _serialPort = new(portName, baudRate);
@@ -21,20 +20,13 @@ namespace SwitchControllerVisualizer
             _serialPort.DtrEnable = true;
 
             _serialPort.Open();
-
             _serialPort.Write(CAPTURE_START, 0, CAPTURE_START.Length);
             Receive((s) => { });
         }
 
+
         public delegate void DataCallBack(ReadOnlySpan<byte> bytes);
-        public event DataCallBack DataReceiveCallBack = (b) => { };
-
-        public void ReceiveMainLoop()
-        {
-            while (ReceiveContinue) { Receive(DataReceiveCallBack); }
-        }
-
-        void Receive(DataCallBack dataCallBack)
+        public void Receive(DataCallBack dataCallBack)
         {
             _serialPort.Write(CAPTURE_STOP, 0, CAPTURE_STOP.Length);
             _serialPort.Write(SHOW_DATA, 0, SHOW_DATA.Length);
