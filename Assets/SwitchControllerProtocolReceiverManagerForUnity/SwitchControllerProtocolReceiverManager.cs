@@ -75,9 +75,9 @@ namespace SwitchControllerVisualizer
 
         }
 
-        private void ToggleTextIs(bool IsNowDoing)
+        private void ToggleTextIs(bool isNowDoing)
         {
-            if (IsNowDoing) ReceivingToggleText.text = "Stop";
+            if (isNowDoing) ReceivingToggleText.text = "Stop";
             else ReceivingToggleText.text = "ConnectSerialPort";
         }
     }

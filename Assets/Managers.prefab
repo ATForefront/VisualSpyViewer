@@ -413,7 +413,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2428684776194831227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7918398635423968398}
+        m_TargetAssemblyTypeName: SwitchControllerVisualizer.ProconVisualizer, controller-visualizer.switch.receiver.manager
+        m_MethodName: OnReceiveToggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1661226032564094787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1197,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7286028677642584070}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1776295867166237736}
+        m_TargetAssemblyTypeName: SwitchControllerVisualizer.ControllerManager, controller-visualizer.manager.unity
+        m_MethodName: OnReceiverChangeOrInit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5308187349928279245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2109,7 +2133,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ConnectSerialPort
+  m_text: Stop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

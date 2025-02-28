@@ -31,18 +31,16 @@ namespace SwitchControllerVisualizer
         {
             COMPort = comPort;
             BaudRate = baudRate;
-            DataReceiveCallBack += ReceiveToParse;
             _controllerState = new();
 
             _serialPortReceiver = new(COMPort, BaudRate);
             _receiverTask = Task.Run(ReceiveMainLoop);
 
         }
-        public event SerialPortReceiver.DataCallBack DataReceiveCallBack = (b) => { };
         public bool ReceiveContinue = true;
         public void ReceiveMainLoop()
         {
-            while (ReceiveContinue) { _serialPortReceiver.Receive(DataReceiveCallBack); }
+            while (ReceiveContinue) { _serialPortReceiver.Receive(ReceiveToParse); }
         }
         public void Dispose()
         {
