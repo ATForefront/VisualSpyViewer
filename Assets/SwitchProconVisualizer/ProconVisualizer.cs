@@ -28,6 +28,12 @@ namespace SwitchControllerVisualizer
 
         readonly int _idLStickX = Animator.StringToHash("LStickX");
         readonly int _idLStickY = Animator.StringToHash("LStickY");
+
+        readonly int _idZL = Animator.StringToHash("ZL");
+        readonly int _idZR = Animator.StringToHash("ZR");
+        readonly int _idL = Animator.StringToHash("L");
+        readonly int _idR = Animator.StringToHash("R");
+
 #nullable enable
         public override void SetControllerState(IControllerProtocolReceiver? controllerState)
         {
@@ -71,6 +77,11 @@ namespace SwitchControllerVisualizer
                 Animator.SetFloat(_idRStickY, _state.Standard.RStickY);
                 Animator.SetFloat(_idLStickX, _state.Standard.LStickX);
                 Animator.SetFloat(_idLStickY, _state.Standard.LStickY);
+
+                Animator.SetFloat(_idZL, _state.Standard.ZL ? 1f : 0f);
+                Animator.SetFloat(_idZR, _state.Standard.ZR ? 1f : 0f);
+                Animator.SetFloat(_idL, _state.Standard.L ? 1f : 0f);
+                Animator.SetFloat(_idR, _state.Standard.R ? 1f : 0f);
             }
             if (_swExState is not null)
             {
