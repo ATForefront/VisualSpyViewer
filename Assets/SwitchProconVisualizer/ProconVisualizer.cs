@@ -56,8 +56,8 @@ namespace SwitchControllerVisualizer
                 Animator.SetFloat(_idY, _state.Standard.Y ? 1f : 0f);
 
                 var dpad = UnityEngine.Vector2.zero;
-                if (_state.Standard.Down) { dpad.y = 1f; }
-                if (_state.Standard.Up) { dpad.y = -1f; }
+                if (_state.Standard.Down) { dpad.y = -1f; }
+                if (_state.Standard.Up) { dpad.y = 1f; }
                 if (_state.Standard.Left) { dpad.x = -1f; }
                 if (_state.Standard.Right) { dpad.x = 1f; }
                 Animator.SetFloat(_idDPadX, dpad.x);
@@ -66,6 +66,11 @@ namespace SwitchControllerVisualizer
 
                 Animator.SetFloat(_idMinus, _state.Standard.SystemL ? 1f : 0f);
                 Animator.SetFloat(_idPlus, _state.Standard.SystemR ? 1f : 0f);
+
+                Animator.SetFloat(_idRStickX, _state.Standard.RStickX);
+                Animator.SetFloat(_idRStickY, _state.Standard.RStickY);
+                Animator.SetFloat(_idLStickX, _state.Standard.LStickX);
+                Animator.SetFloat(_idLStickY, _state.Standard.LStickY);
             }
             if (_swExState is not null)
             {
