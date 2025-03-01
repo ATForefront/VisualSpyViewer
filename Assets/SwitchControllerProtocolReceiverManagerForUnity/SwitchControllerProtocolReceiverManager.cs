@@ -6,7 +6,7 @@ using TMPro;
 
 namespace SwitchControllerVisualizer
 {
-    public class ProconVisualizer : AbstractProtocolReceiverManager
+    public class SwitchControllerProtocolReceiverManager : AbstractProtocolReceiverManager
     {
         public TMP_InputField PortName;
         public TMP_InputField BaudRate;
@@ -63,7 +63,7 @@ namespace SwitchControllerVisualizer
             {
                 var protName = PortName.text;
                 if (int.TryParse(BaudRate.text, out var baudRate) is false) { Debug.Log(BaudRate.text + " is not int"); return; }
-                _protocolReceiver = new(protName, baudRate);
+                _protocolReceiver = new(protName, baudRate, Debug.Log);
                 ToggleTextIs(true);
             }
             else
@@ -72,7 +72,7 @@ namespace SwitchControllerVisualizer
                 _protocolReceiver = null;
                 ToggleTextIs(false);
             }
-
+            _register.Register(_protocolReceiver);
         }
 
         private void ToggleTextIs(bool isNowDoing)
