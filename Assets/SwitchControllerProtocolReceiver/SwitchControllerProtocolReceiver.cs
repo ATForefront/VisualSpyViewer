@@ -25,22 +25,29 @@ namespace SwitchControllerVisualizer
 
         SwitchControllerState _controllerState;
         public ControllerState ControllerState => _controllerState;
-        public event Action<string>? DebugLog;
+        Action<string>? DebugLog;
 
-        public SwitchControllerProtocolReceiver(string comPort, int baudRate)
+        public SwitchControllerProtocolReceiver(string comPort, int baudRate, Action<string>? debugLog = null)
         {
             COMPort = comPort;
             BaudRate = baudRate;
+            DebugLog = debugLog;
             _controllerState = new();
 
-            _serialPortReceiver = new(COMPort, BaudRate);
+            _serialPortReceiver = new(COMPort, BaudRate, DebugLogCall);
             _receiverTask = Task.Run(ReceiveMainLoop);
 
+
+            void DebugLogCall(string log) { DebugLog?.Invoke(log); }
         }
         public bool ReceiveContinue = true;
         public void ReceiveMainLoop()
         {
-            while (ReceiveContinue) { _serialPortReceiver.Receive(ReceiveToParse); }
+            while (ReceiveContinue)
+            {
+                try { _serialPortReceiver.Receive(ReceiveToParse); }
+                catch (Exception e) { DebugLog?.Invoke(e.ToString()); }
+            }
         }
         public void Dispose()
         {
@@ -98,6 +105,46 @@ namespace SwitchControllerVisualizer
         public void ReadFromRawState(SwitchControllerRawState newRawState)
         {
             LastRawState = newRawState;
+
+            var stdState = _controllerState.Standard;
+
+            stdState.A = LastRawState.ButtonStateRight.A;
+            stdState.B = LastRawState.ButtonStateRight.B;
+            stdState.X = LastRawState.ButtonStateRight.X;
+            stdState.Y = LastRawState.ButtonStateRight.Y;
+
+            stdState.Right = LastRawState.ButtonStateLeft.Right;
+            stdState.Left = LastRawState.ButtonStateLeft.Left;
+            stdState.Up = LastRawState.ButtonStateLeft.Up;
+            stdState.Down = LastRawState.ButtonStateLeft.Down;
+
+            stdState.R = LastRawState.ButtonStateRight.R;
+            stdState.ZR = LastRawState.ButtonStateRight.ZR;
+
+            stdState.L = LastRawState.ButtonStateLeft.L;
+            stdState.ZL = LastRawState.ButtonStateLeft.ZL;
+
+            stdState.SystemL = LastRawState.ButtonStateShared.Minus;
+            stdState.SystemR = LastRawState.ButtonStateShared.Plus;
+
+            stdState.LStickClick = LastRawState.ButtonStateShared.LStick;
+            stdState.RStickClick = LastRawState.ButtonStateShared.RStick;
+
+            stdState.LStickX = Normalize(LastRawState.AnalogStickStateLeft.Horizontal);
+            stdState.LStickY = Normalize(LastRawState.AnalogStickStateLeft.Vertical);
+
+            stdState.RStickX = Normalize(LastRawState.AnalogStickStateRight.Horizontal);
+            stdState.RStickY = Normalize(LastRawState.AnalogStickStateRight.Vertical);
+
+            float Normalize(ushort val)
+            {
+                return (((float)val / 4096) - 0.5f) * 2f;
+            }
+
+            var switchExtension = _controllerState._switchControllerExtension;
+            switchExtension.Capture = LastRawState.ButtonStateShared.Capture;
+            switchExtension.Home = LastRawState.ButtonStateShared.Home;
+
             // var deltaTime = DeltaTime = AccGyroParser.GetDeltaTime(beforeState, State);
             // if (AccelOnlyMode)
             // {

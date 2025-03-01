@@ -13,8 +13,11 @@ namespace SwitchControllerVisualizer
         static char[] SHOW_DATA = new char[] { 'b', '\n' };
         SerialPort _serialPort;
         byte[] _readBuffer = new byte[1024];
-        public SerialPortReceiver(string portName, int baudRate)
+         Action<string>? DebugLog;
+
+        public SerialPortReceiver(string portName, int baudRate, Action<string>? debugLog = null)
         {
+            DebugLog = debugLog;
             _serialPort = new(portName, baudRate);
             _serialPort.WriteTimeout = _serialPort.ReadTimeout = 100;
             _serialPort.DtrEnable = true;
@@ -52,7 +55,7 @@ namespace SwitchControllerVisualizer
 
                 if (bIndex == -1 || bIndex == 0)
                 {
-                    // Debug.Log("Debug-Dump:" + line);
+                    DebugLog?.Invoke(line);
                     continue;
                 }// ignore
 
