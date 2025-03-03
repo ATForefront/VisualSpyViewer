@@ -1,11 +1,13 @@
 # VisualSpyViewer
-
+![i1](image/visualspylogo.jpg)
 通常のビューアーでは表現できないジャイロの情報や、その他様々な便利な情報を表示できるビューアーです。
 現在はβリリースで、Switchプロコンのみの対応です。
 
 ## 使い方
 [Releases](https://github.com/ATForefront/VisualSpyViewer/releases) ページよりWindows版zipファイルがダウンロードできます。
 お好みの場所に解凍し、フォルダ内のVisualSpyViewer.exeを実行してください。
+
+![i2](image/vsvconfig.png)
 
 実行すると、画面右上に設定項目があります。
 以下の設定以外は現状弄らなくてOKです。
