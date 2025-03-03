@@ -1,0 +1,17 @@
+{
+    "name": "controller-visualizer.manager.unity",
+    "rootNamespace": "",
+    "references": [
+        "controller-visualizer",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

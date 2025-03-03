@@ -1,0 +1,19 @@
+{
+    "name": "controller-visualizer.switch.receiver.manager",
+    "rootNamespace": "",
+    "references": [
+        "controller-visualizer",
+        "controller-visualizer.switch.receiver",
+        "controller-visualizer.manager.unity",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
