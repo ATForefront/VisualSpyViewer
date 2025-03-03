@@ -93,7 +93,7 @@ namespace SwitchControllerVisualizer
         private void UpdateGyro()
         {
             if (GyroTransform == null) { return; }
-            if (_gyroExtension is null) { return; }
+            if (_gyroExtension is null) { GyroTransform.localRotation = UnityEngine.Quaternion.identity; return; }
             var unityQuaternion = new UnityEngine.Quaternion(_gyroExtension.X, _gyroExtension.Y, _gyroExtension.Z, _gyroExtension.W);
             GyroTransform.localRotation = unityQuaternion;
         }

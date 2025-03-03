@@ -82,7 +82,8 @@ namespace SwitchControllerVisualizer
         public Quaternion RawModeGyroValue = Quaternion.Identity;
         // public Vector3 AccelVector3;
         // public Vector3 GyroVector3;
-        public Quaternion QuaternionModeBaseRotation = Quaternion.Identity;
+        public Quaternion NowGyroQuaternion = Quaternion.Identity;
+        public Quaternion? QuaternionModeBaseRotation = null;
         // public Quaternion GyroQuaternion;
         public int MaxIndex;
         public int DeltaTime;
@@ -167,7 +168,7 @@ namespace SwitchControllerVisualizer
                 // AccelVector3 = vec.posVec;
                 // GyroVector3 = vec.rotVex;
 
-                if (LastRawState.ButtonStateRight.Y) { _controllerState._gyroExtension.ReadFromQuaternion(Quaternion.Identity); }
+                if (LastRawState.ButtonStateRight.Y) { ResetControllerRotation(); }
             }
             else
             {
@@ -175,11 +176,15 @@ namespace SwitchControllerVisualizer
                 if (resultFFI.is_ok)
                 {
                     var quat = resultFFI.zero;
-                    var gyroQuaternion = new Quaternion(quat.y, quat.z * -1, quat.x * -1, quat.w);
+                    NowGyroQuaternion = new Quaternion(quat.y, quat.z * -1, quat.x * -1, quat.w);
 
-                    if (LastRawState.ButtonStateRight.Y) { QuaternionModeBaseRotation = Quaternion.Inverse(gyroQuaternion); }
 
-                    _controllerState._gyroExtension.ReadFromQuaternion(QuaternionModeBaseRotation * gyroQuaternion);
+                    if (QuaternionModeBaseRotation is null || LastRawState.ButtonStateRight.Y)
+                    {
+                        ResetControllerRotation();
+                    }
+                    // QuaternionModeBaseRotation が null の場合は ResetControllerRotation が呼ばれ値が確実に入っているから問題ない
+                    _controllerState._gyroExtension.ReadFromQuaternion(QuaternionModeBaseRotation!.Value * NowGyroQuaternion);
                 }
             }
             // }
@@ -205,6 +210,13 @@ namespace SwitchControllerVisualizer
                 }
             }
         }
+
+        public void ResetControllerRotation()
+        {
+            if (RawProtocolMode) { RawModeGyroValue = Quaternion.Identity; }
+            else { QuaternionModeBaseRotation = Quaternion.Inverse(NowGyroQuaternion); }
+        }
+
         class SwitchControllerState : ControllerState
         {
             public SwitchControllerState() : base(new()) { }
