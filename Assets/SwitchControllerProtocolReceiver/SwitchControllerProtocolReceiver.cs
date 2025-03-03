@@ -79,10 +79,10 @@ namespace SwitchControllerVisualizer
         public DeserializeResult LastDeserializeResult;
         public SwitchControllerRawState LastRawState;
 
-        public Quaternion RawModeGyroValue;
+        public Quaternion RawModeGyroValue = Quaternion.Identity;
         // public Vector3 AccelVector3;
         // public Vector3 GyroVector3;
-        public Quaternion QuaternionModeBaseRotation;
+        public Quaternion QuaternionModeBaseRotation = Quaternion.Identity;
         // public Quaternion GyroQuaternion;
         public int MaxIndex;
         public int DeltaTime;

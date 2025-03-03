@@ -10,6 +10,7 @@ namespace SwitchControllerVisualizer
     {
         public TMP_InputField PortName;
         public TMP_InputField BaudRate;
+        public Toggle RawProtocolToggle;
         public Button ReceivingToggle;
         public TMP_Text ReceivingToggleText;
 
@@ -30,6 +31,7 @@ namespace SwitchControllerVisualizer
             ReceivingToggle.gameObject.SetActive(isActive);
             PortName.gameObject.SetActive(isActive);
             BaudRate.gameObject.SetActive(isActive);
+            RawProtocolToggle.gameObject.SetActive(isActive);
         }
 
         IRegisterControllerProtocolReceiver _register;
@@ -64,6 +66,7 @@ namespace SwitchControllerVisualizer
                 var protName = PortName.text;
                 if (int.TryParse(BaudRate.text, out var baudRate) is false) { Debug.Log(BaudRate.text + " is not int"); return; }
                 _protocolReceiver = new(protName, baudRate, Debug.Log);
+                _protocolReceiver.RawProtocolMode = RawProtocolToggle.isOn;
                 ToggleTextIs(true);
             }
             else
@@ -79,6 +82,11 @@ namespace SwitchControllerVisualizer
         {
             if (isNowDoing) ReceivingToggleText.text = "Stop";
             else ReceivingToggleText.text = "ConnectSerialPort";
+        }
+
+        public void OnUpdateRawProtocolToggle(bool newValue)
+        {
+            _protocolReceiver.RawProtocolMode = newValue;
         }
     }
 }
