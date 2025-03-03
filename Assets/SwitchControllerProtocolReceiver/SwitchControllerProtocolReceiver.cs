@@ -159,7 +159,8 @@ namespace SwitchControllerVisualizer
             if (RawProtocolMode)
             {
                 var vec = AccGyroParser.RawToVec(LastRawState.AccGyro1);
-                RawModeGyroValue *= Quaternion.CreateFromYawPitchRoll(vec.rotVex.X, vec.rotVex.Y, vec.rotVex.Z);
+                var radRot = vec.rotVex * (float)(Math.PI / 180f);
+                RawModeGyroValue *= Quaternion.CreateFromYawPitchRoll(radRot.Y, radRot.X, radRot.Z);
                 _controllerState._gyroExtension.ReadFromQuaternion(RawModeGyroValue);
 
                 // if (EnablePosition) { transform.localPosition += transform.localRotation * vec.posVec; }
