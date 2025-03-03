@@ -88,5 +88,9 @@ namespace SwitchControllerVisualizer
         {
             _protocolReceiver.RawProtocolMode = newValue;
         }
+        public void ResetControllerRotation()
+        {
+            _protocolReceiver.ResetControllerRotation();
+        }
     }
 }
