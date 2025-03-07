@@ -6,6 +6,9 @@ using TMPro;
 
 namespace SwitchControllerVisualizer
 {
+    /*
+        SwitchControllerProtocolReceiver をUnity上でセットアップしながら扱う存在。
+    */
     public class SwitchControllerProtocolReceiverManager : AbstractProtocolReceiverManager
     {
         public TMP_InputField PortName;

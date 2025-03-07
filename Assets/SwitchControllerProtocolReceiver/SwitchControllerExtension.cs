@@ -6,7 +6,7 @@ namespace SwitchControllerVisualizer
         public bool Home;
         public bool Capture;
     }
-        public class SwitchJoyConExtension : IExtensionControllerState
+    public class SwitchJoyConExtension : IExtensionControllerState
     {
         public bool RightJoyconSR;
         public bool RightJoyconSL;

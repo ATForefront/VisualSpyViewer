@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace SwitchControllerVisualizer
 {
+    /*
+        Switch のプロトコルを解析し  IControllerProtocolReceiver の実装とともに ControllerVisualizer.ControllerState を提供する。
+        これ単体では何もできないから通常 Unity依存のマネージャーによって叩かれることによって動作する。
+    */
+
     public class SwitchControllerProtocolReceiver : IControllerProtocolReceiver
     {
         // COM3

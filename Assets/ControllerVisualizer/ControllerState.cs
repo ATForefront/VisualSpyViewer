@@ -4,6 +4,10 @@ using System.Numerics;
 
 namespace SwitchControllerVisualizer
 {
+    /*
+        核となるインターフェースと 一般的な State を持つ、ここに実装はない。
+        それはそうとしてここは C# generic で良いからここで Unityへの依存は持たない。
+    */
     public abstract class ControllerState
     {
         // 基本的に class の取得は何度も行われないことを想定する

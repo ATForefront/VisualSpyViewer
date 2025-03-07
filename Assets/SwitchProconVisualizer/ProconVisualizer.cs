@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace SwitchControllerVisualizer
 {
+    /*
+        SwitchControllerProtocolReceiver を参照し、Procon の 3D モデルを制御し Visualize する IControllerVisualizer の実装の一つ。
+    */
     public class ProconVisualizer : AbstractUnityVisualizer
     {
         public Animator Animator;

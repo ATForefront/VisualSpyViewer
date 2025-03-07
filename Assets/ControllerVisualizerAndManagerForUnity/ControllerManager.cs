@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 namespace SwitchControllerVisualizer
 {
+    /*
+        ControllerVisualizer を参照し、それら　ProtocolReceiver の生成や管理、IControllerVisualizer を実装した MonoBehavior などをつなぐマネージャー。
+    */
     public class ControllerManager : MonoBehaviour
     {
         public List<AbstractProtocolReceiverManager> ProtocolReceiverManagers = new();
