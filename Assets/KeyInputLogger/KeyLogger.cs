@@ -11,7 +11,7 @@ namespace SwitchControllerVisualizer.KeyInputLogger
         差分の取得自体に Unity はいらないので C# generic 。
     */
 
-    public class KeyLogger : IControllerVisualizer
+    public class KeyLogger : IControllerVisualizer , IDisposable
     {
         public event Action<KeyCode> InputLog = k => { };
         public enum KeyCode
@@ -96,6 +96,11 @@ namespace SwitchControllerVisualizer.KeyInputLogger
             if (state == previousState) { return; }
             _keyState[keyCode] = state;
             if (state) InputLog?.Invoke(keyCode);
+        }
+
+        public void Dispose()
+        {
+            SetControllerState(null);
         }
     }
 }
