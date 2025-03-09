@@ -1,0 +1,21 @@
+{
+    "name": "controller-visualizer.key-input-logger.visualizer.text",
+    "rootNamespace": "",
+    "references": [
+        "controller-visualizer",
+        "controller-visualizer.manager.unity",
+        "controller-visualizer.switch.receiver",
+        "controller-visualizer.key-input-logger",
+        "controller-visualizer.key-input-logger.visualizer",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
