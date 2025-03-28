@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace SwitchControllerVisualizer.KeyInputLogger
 {
@@ -11,7 +12,7 @@ namespace SwitchControllerVisualizer.KeyInputLogger
         差分の取得自体に Unity はいらないので C# generic 。
     */
 
-    public class KeyLogger : IControllerVisualizer , IDisposable
+    public class KeyLogger : IControllerVisualizer, IDisposable
     {
         public event Action<KeyCode> InputLog = k => { };
         public enum KeyCode
@@ -41,6 +42,24 @@ namespace SwitchControllerVisualizer.KeyInputLogger
 
             Capture = 17,
             Home = 18,
+
+            LStickUp = 19,
+            LStickRightUp = 20,
+            LStickRight = 21,
+            LStickRightDown = 22,
+            LStickDown = 23,
+            LStickLeftDown = 24,
+            LStickLeft = 25,
+            LStickLeftUp = 26,
+
+            RStickUp = 27,
+            RStickRightUp = 28,
+            RStickRight = 29,
+            RStickRightDown = 30,
+            RStickDown = 31,
+            RStickLeftDown = 32,
+            RStickLeft = 33,
+            RStickLeftUp = 34,
         }
 
         Dictionary<KeyCode, bool> _keyState = new();
@@ -81,6 +100,9 @@ namespace SwitchControllerVisualizer.KeyInputLogger
 
                 UpdateButton(KeyCode.RStickClick, stdState.RStickClick);
                 UpdateButton(KeyCode.LStickClick, stdState.LStickClick);
+
+                UpdateStick(KeyCode.LStickUp, stdState.LStickX, stdState.LStickY);
+                UpdateStick(KeyCode.RStickUp, stdState.RStickX, stdState.RStickY);
             }
 
             var switchExtraState = state.GetExtentState<SwitchControllerExtension>();
@@ -97,10 +119,64 @@ namespace SwitchControllerVisualizer.KeyInputLogger
             _keyState[keyCode] = state;
             if (state) InputLog?.Invoke(keyCode);
         }
+        void UpdateStick(KeyCode stickUp, float stickX, float stickY)
+        {
+            var nowStickDirection = (int)Stick2OctDirection(stickX, stickY);
+
+            // OctDirection と KeyCode は同じ順番で並んでいるので数値比較で誤魔化す。
+            UpdateButton(stickUp + 0, nowStickDirection == 0);
+            UpdateButton(stickUp + 1, nowStickDirection == 1);
+            UpdateButton(stickUp + 2, nowStickDirection == 2);
+            UpdateButton(stickUp + 3, nowStickDirection == 3);
+            UpdateButton(stickUp + 4, nowStickDirection == 4);
+            UpdateButton(stickUp + 5, nowStickDirection == 5);
+            UpdateButton(stickUp + 6, nowStickDirection == 6);
+            UpdateButton(stickUp + 7, nowStickDirection == 7);
+        }
+
+
 
         public void Dispose()
         {
             SetControllerState(null);
+        }
+
+
+
+
+        // ここには改善の余地はあると思う
+        static OctDirection Stick2OctDirection(float x, float y)
+        {
+            if (y > 0.5f)
+            {
+                if (x > 0.5f) { return OctDirection.RightUp; }
+                else if (x < -0.5f) { return OctDirection.LeftUp; }
+                return OctDirection.Up;
+            }
+            else if (y < -0.5f)
+            {
+                if (x > 0.5f) { return OctDirection.RightDown; }
+                else if (x < -0.5f) { return OctDirection.LeftDown; }
+                return OctDirection.Down;
+            }
+
+            if (x > 0.5f) { return OctDirection.Right; }
+            else if (x < -0.5f) { return OctDirection.Left; }
+            return OctDirection.NotDirection;
+        }
+
+        enum OctDirection
+        {
+            Up = 0,
+            RightUp = 1,
+            Right = 2,
+            RightDown = 3,
+            Down = 4,
+            LeftDown = 5,
+            Left = 6,
+            LeftUp = 7,
+
+            NotDirection = -1,
         }
     }
 }
