@@ -1,0 +1,17 @@
+{
+    "name": "controller-visualizer.key-input-logger",
+    "rootNamespace": "",
+    "references": [
+        "controller-visualizer",
+        "controller-visualizer.switch.receiver"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
